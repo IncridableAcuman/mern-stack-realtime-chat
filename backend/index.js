@@ -6,6 +6,8 @@ const fileUpload=require('express-fileupload');
 
 // local
 const db=require('./configs/db.config');
+// middleware
+const errorMiddleware=require("./middlewares/error.middleware");
 // routes
 const authRoutes=require("./routes/auth.route");
 const userRoutes=require("./routes/user.route");
@@ -23,6 +25,8 @@ app.use("/api/auth",authRoutes);
 app.use("/api/user",userRoutes);
 app.use("/api/message",messageRoutes);
 
+// error
+app.use(errorMiddleware);
 const port=process.env.PORT || 4000;
 
 // connection database
