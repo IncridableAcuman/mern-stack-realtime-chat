@@ -19,6 +19,10 @@ class TokenService{
         }
         const token=await Token.create({user:userId,refreshToken});
     }
+    // find token from db
+    async findToken(refreshToken){
+        return await Token.findOne({refreshToken});
+    }
     // remove token
     async removeToken(refreshToken){
         return await Token.findOneAndDelete({refreshToken});
