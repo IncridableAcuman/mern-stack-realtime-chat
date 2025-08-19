@@ -76,6 +76,7 @@ class AuthService{
         const userDTO=new UserDTO(user);
         const tokens=tokenService.generateTokens({...userDTO});
         const url=`http://localhost:5173/reset-password?token=${tokens.accessToken}`;
+        await mailService.sendMail(userDTO.email,url);
         // mail service
         return "Reset password link sent to email";
     }
