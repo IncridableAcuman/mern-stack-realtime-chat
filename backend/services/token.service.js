@@ -15,7 +15,7 @@ class TokenService{
         const existToken=await Token.findOne({user:userId});
         if(existToken){
             existToken.refreshToken=refreshToken;
-            return existToken;
+            return await existToken.save();
         }
         const token=await Token.create({user:userId,refreshToken});
     }

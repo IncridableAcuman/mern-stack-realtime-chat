@@ -42,18 +42,15 @@ class AuthService{
     }
     // refresh
     async refresh(refreshToken){
-        if(refreshToken==null || !refreshToken){
+        if(!refreshToken){
             throw new BaseError.BadRequest("Token must be required");
         }
         const payload=tokenService.validateRefreshToken(refreshToken);
         const tokenDB=await tokenService.findToken(refreshToken);
         if(!payload || !tokenDB){
-            throw BaseError.Unauthorize();
+            throw BaseError.NotFound("Token not found");
         }
         const user=await User.findById(payload.id);
-        if(!user){
-            throw BaseError.Unauthorize();
-        }
         const userDTO=new UserDTO(user);
         const tokens=tokenService.generateTokens({...userDTO});
         await tokenService.saveToken(userDTO.id,tokens.refreshToken);
@@ -61,13 +58,8 @@ class AuthService{
     }
     // logout
     async logout(refreshToken){
-        if(refreshToken==null || !refreshToken){
+        if(!refreshToken){
             throw new BaseError.BadRequest("Token must be required");
-        }
-        const payload=tokenService.validateRefreshToken(refreshToken);
-        const tokenDB=await tokenService.findToken(refreshToken);
-        if(!payload || !tokenDB){
-            throw BaseError.Unauthorize();
         }
         await tokenService.removeToken(refreshToken);
         return "User logged out";
@@ -83,7 +75,7 @@ class AuthService{
         }
         const userDTO=new UserDTO(user);
         const tokens=tokenService.generateTokens({...userDTO});
-        const url=`http://localhost:5173/reset-password?=token=${tokens.accessToken}`;
+        const url=`http://localhost:5173/reset-password?token=${tokens.accessToken}`;
         // mail service
         return "Reset password link sent to email";
     }
