@@ -12,6 +12,7 @@ const errorMiddleware=require("./middlewares/error.middleware");
 const authRoutes=require("./routes/auth.route");
 const userRoutes=require("./routes/user.route");
 const messageRoutes=require("./routes/message.route");
+const chatRoutes=require("./routes/chat.route");
 
 const app=express();
 app.use(express.json());
@@ -24,6 +25,7 @@ app.use(cors({
 app.use("/api/auth",authRoutes);
 app.use("/api/user",userRoutes);
 app.use("/api/message",messageRoutes);
+app.use("/api/chat",chatRoutes);
 
 // error
 app.use(errorMiddleware);

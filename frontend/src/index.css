@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+.bg-image{
+    background-image: url("../public/chat-app-assets/bgImage.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.pdg{
+    padding: 30px 10%;
+}
