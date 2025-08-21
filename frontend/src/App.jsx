@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify';
 const App = () => {
   return (
     <>
-    <ToastContainer/>
+    <ToastContainer position={'bottom-right'} />
     <Routes>
       <Route path='/' element={<Home/>} />
       <Route path='/landing' element={<LandingPage/>} />

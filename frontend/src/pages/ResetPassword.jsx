@@ -1,13 +1,14 @@
 import { Lock, Send } from 'lucide-react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import axiosInstance from '../api/axiosInstance';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const ResetPassword = () => {
   const [password,setPassword]=useState('');
   const [confirmPassword,setConfirmPassword]=useState('');
   const {token}=useParams();
+  const navigate=useNavigate();
 
     const handleSubmit = async (e)=>{
     e.preventDefault();
@@ -16,7 +17,7 @@ const ResetPassword = () => {
     }
     try {
       const {data} = await axiosInstance.put("/auth/reset-password",{token,password});
-      toast.success(data.message || "Password updated successfully");
+      toast.success(data || "Password updated successfully");
     } catch (error) {
       console.log(error);
       toast.error("Register failed");
@@ -24,11 +25,20 @@ const ResetPassword = () => {
     }
   }
 
+   useEffect(()=>{
+            if(localStorage.getItem("accessToken")){
+              navigate("/");
+            }
+          },[navigate]);
+
   return (
     <>
     <div className="w-full min-h-screen bg-image text-white bg-gray-900 pt-24 px-10">
       <div className="flex items-center justify-between pdg gap-5">
-        <img src="./favicon.svg" alt="favicon" className='hidden md:block w-60' />
+       <div className="hidden md:block">
+          <img src="./favicon.svg" alt="favicon" className='w-60' />
+          <h2 className='text-center py-2 text-2xl lg:text-4xl font-extrabold'>Real Time Chat</h2>
+        </div>
         <div className="border-2 border-white  p-4 w-full max-w-md rounded-md ">
           <h1 className='text-3xl font-bold pb-5 text-center'>Update Password</h1>
           <form className='space-y-4' onSubmit={handleSubmit}>

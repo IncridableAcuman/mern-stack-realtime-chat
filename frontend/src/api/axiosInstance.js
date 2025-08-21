@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const axiosInstance=axios.create({
     withCredentials:true,
@@ -26,10 +27,11 @@ axiosInstance.interceptors.response.use(
                 const {data}=await axiosInstance.get("/auth/refresh");
                 localStorage.setItem("accessToken",data.accessToken);
                 error.headers['Authorization']=`Bearer ${data.accessToken}`;
-                return axiosInstance(originalRequest);
+                return axiosInstance.request(originalRequest);
             } catch (error) {
                 console.log(error);
                 localStorage.clear();
+                toast.error(error.message || "Error with network")
                 window.location.href="/login";
             }
         }
