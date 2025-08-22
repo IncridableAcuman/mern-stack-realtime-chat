@@ -8,3 +8,12 @@
 .pdg{
     padding: 30px 10%;
 }
+
+/* Scrollbar-ni yashirish */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE va Edge */
+  scrollbar-width: none; /* Firefox */
+}
