@@ -34,7 +34,7 @@ const ForgotPassword = () => {
           <img src="./favicon.svg" alt="favicon" className='w-60' />
           <h2 className='text-center py-2 text-2xl lg:text-4xl font-extrabold'>Real Time Chat</h2>
         </div>
-        <div className="border-2 border-white  p-4 w-full max-w-md rounded-md ">
+        <div className="border-2 border-white  p-4 w-full max-w-md rounded-md bg-gray-900 opacity-90 shadow-md ">
           <h1 className='text-3xl font-bold pb-5 text-center'>Forgot Password</h1>
           <form className='space-y-4' onSubmit={handleSubmit}>
             <div className="flex items-center gap-2 border-2 border-white p-2.5">

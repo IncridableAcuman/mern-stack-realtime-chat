@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .bg-image{
-    background-image: url("../public/chat-app-assets/bgImage.svg");
+    background-image: url("../public/bgImage.svg");
     background-position: center;
     background-repeat: no-repeat;
 }

@@ -60,7 +60,7 @@ const Login = () => {
               <User/>
               <input type="text"
                placeholder='Username'
-                className='outline-none w-full'
+                className='outline-none w-full bg-transparent'
                 value={username}
                 onChange={(e)=>setUsername(e.target.value)}
                 required
@@ -71,7 +71,7 @@ const Login = () => {
               <Mail/>
               <input type="email" 
               placeholder='Email' 
-               className='outline-none w-full'
+               className='outline-none w-full bg-transparent'
                value={email}
                onChange={(e)=>setEmail(e.target.value)}
                required
@@ -81,7 +81,7 @@ const Login = () => {
               <Lock/>
               <input type="password" 
               placeholder='Password'
-              className='outline-none w-full'
+              className='outline-none w-full bg-transparent'
               value={password}
               onChange={(e)=>setPassword(e.target.value)}
               required
