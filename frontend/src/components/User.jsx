@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 const User = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  //const [user,setUser]=useState(null);
 
   const handleClick = async () => {
     try {
@@ -21,6 +22,18 @@ const User = () => {
       toast.error(error.message || "Logout failed");
     }
   };
+
+  // useEffect(()=>{
+  //     const getMe = async ()=>{
+  //   try {
+  //     const {data} = await axiosInstance.get("/user/me");
+  //     setUser(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+  // getMe();
+  // },[user,setUser]);
 
 
   return (
