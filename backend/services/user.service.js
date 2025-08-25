@@ -6,6 +6,9 @@ const BaseError=require("../errors/BaseError");
 class UserService{
     // get me
     async getUser(refreshToken){
+        if(!refreshToken){
+            throw BaseError.Unauthorize();
+        }
         const payload=tokenService.validateRefreshToken(refreshToken);
         if(!payload){
             throw BaseError.Unauthorize();

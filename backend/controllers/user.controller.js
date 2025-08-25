@@ -8,6 +8,7 @@ class UserController{
             return res.json(user);
         } catch (error) {
             next(error);
+            console.log(error)
         }
     }
 

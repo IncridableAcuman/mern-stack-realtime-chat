@@ -3,7 +3,6 @@ module.exports=class UserDTO{
     username;
     email;
     role;
-    avatar;
     accessToken;
     refreshToken;
     constructor(model){
@@ -11,7 +10,6 @@ module.exports=class UserDTO{
         this.username=model.username;
         this.email=model.email;
         this.role=model.role;
-        this.avatar=model.avatar;
         this.accessToken=model.accessToken;
         this.refreshToken=model.refreshToken;
     }

@@ -3,6 +3,7 @@ const cors=require('cors');
 require('dotenv').config();
 const cookieParser=require('cookie-parser');
 const fileUpload=require('express-fileupload');
+const {app,server} = require("./configs/socket.config");
 
 // local
 const db=require('./configs/db.config');
@@ -14,18 +15,21 @@ const userRoutes=require("./routes/user.route");
 const messageRoutes=require("./routes/message.route");
 const chatRoutes=require("./routes/chat.route");
 
-const app=express();
+
 app.use(express.json());
 app.use(cookieParser());
-app.use(fileUpload());
+app.use(fileUpload({
+    limits:5*1024*1024,
+    
+}));
 app.use(cors({
     credentials:true,
     origin:"http://localhost:5173"
 }))
 app.use("/api/auth",authRoutes);
 app.use("/api/user",userRoutes);
-app.use("/api/message",messageRoutes);
-app.use("/api/chat",chatRoutes);
+app.use("/api/messages",messageRoutes);
+app.use("/api/chats",chatRoutes);
 
 // error
 app.use(errorMiddleware);
@@ -34,6 +38,6 @@ const port=process.env.PORT || 4000;
 // connection database
 db();
 // brauser port
-app.listen(port,()=>{
+server.listen(port,()=>{
     console.log(`Server is running on ${port}...`);
 })

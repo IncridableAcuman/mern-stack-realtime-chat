@@ -1,7 +1,12 @@
-import React from "react";
+//import { useState } from "react";
 import Navbar from "../components/Navbar";
+//import axiosInstance from "../api/axiosInstance";
 
 const Message = () => {
+  //const [user,setUser] = useState([]);
+
+
+        
   return (
     <>
       <div className="w-full md:max-w-2xl lg:max-w-3xl h-screen flex flex-col">

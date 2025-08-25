@@ -7,6 +7,8 @@ import Message from "./Message";
 const Home = () => {
   const navigate = useNavigate();
 
+
+
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
       navigate("/login");
