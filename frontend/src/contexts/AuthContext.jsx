@@ -5,6 +5,7 @@ const AuthContext=createContext();
 
  export  const AuthProvider = ({children}) => {
     const [user,setUser]=useState(null);
+    const [selectedUser,setSelectedUser]=useState(null);
 
   const getMe = async ()=>{
     try {
@@ -17,7 +18,7 @@ const AuthContext=createContext();
 
   return (
     <>
-    <AuthContext.Provider value={{user,setUser,getMe}}>
+    <AuthContext.Provider value={{user,setUser,selectedUser,setSelectedUser,getMe}}>
         {children}
     </AuthContext.Provider>
     </>

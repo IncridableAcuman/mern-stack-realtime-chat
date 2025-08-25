@@ -4,7 +4,7 @@ class MessageController{
 
     async getUsersForSidebar(req,res,next){
         try {
-            const {senderId}=req.body;
+            const senderId=req.user.id;
             const message = await messageService.getUsersForSidebar(senderId);
             return res.status(200).json(message);
         } catch (error) {
@@ -14,7 +14,8 @@ class MessageController{
 
     async getMessages(req,res,next){
         try {
-            const {senderId,receiverId}=req.body;
+            const senderId=req.user.id;
+            const receiverId=req.params.id;
             const messages = await messageService.getMessages(senderId,receiverId);
             return res.status(200).json(messages);
         } catch (error) {
@@ -25,7 +26,9 @@ class MessageController{
 
     async sendMessage(req,res,next){
         try {
-            const {senderId,receiverId,text}=req.body;
+            const {text}=req.body;
+            const senderId=req.user.id;
+            const receiverId=req.params.id;
             const message = await messageService.sendMessage(senderId,receiverId,text);
             return res.json(message);
         } catch (error) {

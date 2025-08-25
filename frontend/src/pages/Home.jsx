@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import User from "../components/User";
@@ -6,6 +6,7 @@ import Message from "./Message";
 
 const Home = () => {
   const navigate = useNavigate();
+  const [selectedUser,setSelectedUser]=useState(null);
 
 
 
@@ -20,9 +21,9 @@ const Home = () => {
       <div className="w-full h-screen bg-image text-white">
         <div className="w-full h-screen bg-gray-900 text-white opacity-90">
           <div className="flex flex-col lg:flex-row items-stretch justify-between h-full">
-            <Sidebar />
+            <Sidebar setSelectedUser={setSelectedUser} selectedUser={selectedUser} />
             <div className="flex-1 flex justify-center">
-              <Message />
+              <Message selectedUser={selectedUser} />
             </div>
             <User />
           </div>

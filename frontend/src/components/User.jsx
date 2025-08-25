@@ -1,13 +1,13 @@
 import { toast } from "react-toastify";
 import axiosInstance from "../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const User = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  //const [user,setUser]=useState(null);
+  const [user,setUser]=useState(null);
 
   const handleClick = async () => {
     try {
@@ -23,17 +23,17 @@ const User = () => {
     }
   };
 
-  // useEffect(()=>{
-  //     const getMe = async ()=>{
-  //   try {
-  //     const {data} = await axiosInstance.get("/user/me");
-  //     setUser(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-  // getMe();
-  // },[user,setUser]);
+  useEffect(()=>{
+      const getMe = async ()=>{
+    try {
+      const {data} = await axiosInstance.get("/user/me");
+      setUser(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  getMe();
+  },[]);
 
 
   return (
@@ -57,7 +57,7 @@ const User = () => {
             alt="avatar_icon.png"
             className="w-16 sm:w-20 lg:w-24"
           />
-          <h1 className="py-2.5 text-lg sm:text-xl lg:text-2xl">Izzatbek</h1>
+          <h1 className="py-2.5 text-lg sm:text-xl lg:text-2xl">{user?.username || "Hi dev"}</h1>
           <p className="text-xs sm:text-sm text-center">
             Hi everyone. I'm using Easy Chat
           </p>

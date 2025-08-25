@@ -1,28 +1,23 @@
 import { Menu, Search, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axiosInstance from "../api/axiosInstance";
 
-const Sidebar = () => {
+const Sidebar = ({setSelectedUser,selectedUser}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const users = [
-    { name: "Izzatbek", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Elon Musk", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Jack Man", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Bill Gates", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Mark Zuckerberg", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Steve Jobs", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Jeff Bezos", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Sundar Pichai", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Izzatbek", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Elon Musk", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Jack Man", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Bill Gates", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Mark Zuckerberg", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Steve Jobs", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Jeff Bezos", image: "./chat-app-assets/avatar_icon.png" },
-    { name: "Sundar Pichai", image: "./chat-app-assets/avatar_icon.png" },
-    // test uchun ko‘p user qo‘ydim
-  ];
+  const [users,setUsers]=useState([]);
 
+  const getUsersForSidebar  = async ()=>{
+    try {
+      const {data} = await axiosInstance.get("/messages/users");
+      setUsers(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(()=>{
+    getUsersForSidebar();
+  },[]);
   return (
     <div className="flex">
       <div
@@ -66,31 +61,18 @@ const Sidebar = () => {
         <div className="px-2 py-4 mt-4 space-y-2 overflow-y-auto h-[calc(100vh-180px)] scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent scrollbar-hide">
           {users.map((user, index) => (
             <div
-              className="flex items-center gap-3 cursor-pointer hover:bg-gray-700 transition duration-300 p-2 rounded"
+              className={`flex items-center gap-3 cursor-pointer  p-2 rounded 
+                 ${selectedUser?._id===user?._id ? "bg-gray-700":"hover:bg-gray-700 transition duration-300"}`}
               key={index}
+              onClick={()=>setSelectedUser(user)}
             >
-              <img src={user.image} alt={user.name} className="w-8 sm:w-10" />
+              <img src={user?.avatar || "./chat-app-assets/avatar_icon.png"} alt={user?.username} className="w-8 sm:w-10" />
               <h2 className="text-sm sm:text-base font-semibold truncate max-w-[140px] sm:max-w-[200px]">
-                {user.name}
+                {user?.username}
               </h2>
             </div>
           ))}
         </div>{/* Users list */}
-<div
-  className="px-2 py-4 mt-4 space-y-2 overflow-y-auto h-[calc(100vh-180px)] scrollbar-hide"
->
-  {users.map((user, index) => (
-    <div
-      className="flex items-center gap-3 cursor-pointer hover:bg-gray-700 transition duration-300 p-2 rounded"
-      key={index}
-    >
-      <img src={user.image} alt={user.name} className="w-8 sm:w-10" />
-      <h2 className="text-sm sm:text-base font-semibold truncate max-w-[140px] sm:max-w-[200px]">
-        {user.name}
-      </h2>
-    </div>
-  ))}
-</div>
 
       </div>
 

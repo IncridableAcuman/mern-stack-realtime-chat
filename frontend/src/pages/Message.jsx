@@ -1,16 +1,20 @@
-//import { useState } from "react";
 import Navbar from "../components/Navbar";
-//import axiosInstance from "../api/axiosInstance";
 
-const Message = () => {
-  //const [user,setUser] = useState([]);
+const Message = ({selectedUser}) => {
 
+  if (!selectedUser) {
+    return (
+      <div className="w-full md:max-w-2xl lg:max-w-3xl h-screen flex flex-col justify-center items-center">
+        <p className="text-center text-gray-400">User tanlang...</p>
+      </div>
+    );
+  }
 
         
   return (
     <>
       <div className="w-full md:max-w-2xl lg:max-w-3xl h-screen flex flex-col">
-        <Navbar />
+        <Navbar selectedUser={selectedUser} />
         <div className="flex-1 overflow-y-auto px-2 py-4">
           {/* Chat messages */}
           <p className="text-center text-gray-400">Start chatting...</p>
