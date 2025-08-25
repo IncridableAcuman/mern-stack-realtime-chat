@@ -2,7 +2,6 @@ const express=require('express');
 const cors=require('cors');
 require('dotenv').config();
 const cookieParser=require('cookie-parser');
-const fileUpload=require('express-fileupload');
 const {app,server} = require("./configs/socket.config");
 
 // local
@@ -18,10 +17,6 @@ const chatRoutes=require("./routes/chat.route");
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(fileUpload({
-    limits:5*1024*1024,
-    
-}));
 app.use(cors({
     credentials:true,
     origin:"http://localhost:5173"

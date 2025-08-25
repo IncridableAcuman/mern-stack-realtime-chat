@@ -12,7 +12,7 @@ const io=new Server(server,{
     }
 });
 
-module.exports =  function getRecevierSocketId(userId){
+ function getRecevierSocketId(userId){
     return userSocketMap[userId];
 }
 const userSocketMap = {};
@@ -32,4 +32,4 @@ io.on("connection",(socket)=>{
     });
 });
 
-module.exports = {io,app,server};
+module.exports = {io,app,server,getRecevierSocketId};

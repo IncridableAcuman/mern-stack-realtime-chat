@@ -15,7 +15,7 @@ module.exports = async (req,res,next)=>{
         }
         const user=await User.findById(payload.id);
         if(!user){
-            return next(BaseError.Unauthorize);
+            return next(BaseError.Unauthorize());
         }
         req.user=user;
         next();

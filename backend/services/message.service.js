@@ -1,16 +1,12 @@
 const User = require("../models/user.model");
 const Message = require("../models/message.model");
-const fileService = require("./file.service");
 const BaseError = require("../errors/BaseError");
 const {io,getRecevierSocketId} = require("../configs/socket.config");
 
 class MessageService{
 
     async getUsersForSidebar(userId){
-        const users = await User.find({ id: {$ne:userId} }).select("-password");
-        if(users.length==0 || users==[]){
-            throw BaseError.NotFound("Users not found");
-        }
+        const users = await User.find({ _id: {$ne:userId} }).select("-password");
         return users;
     }
 
@@ -20,24 +16,23 @@ class MessageService{
                 {senderId:userId,receiverId:userToChatId},
                 {senderId:userToChatId,receiverId:userId}
             ]
-        });
+        }).sort({createdAt:1});
         return messages;
     }
 
-    async sendMessage(senderId,receiverId,text,image){
-
-        if(!senderId || !receiverId || !text || !image){
-            throw BaseError.BadRequest("Error");
+    async sendMessage(senderId,receiverId,text){
+        if(!text){
+            throw BaseError.BadRequest("No text provided");
         }
+        const receiver = await User.findById(receiverId);
+        if(!receiver) throw BaseError.NotFound("Receiver not found");
 
-        const imageData=image? await fileService.toDB(image):null;
-
-        const message= new Message({senderId,receiverId,text,image:imageData});
+        const message= new Message({senderId,receiverId,text});
         await message.save();
 
         const receiverSocketId=getRecevierSocketId(receiverId);
         if(receiverSocketId){
-            io.to(receiverId).emit("newMessage",message);
+            io.to(receiverSocketId).emit("newMessage",message);
         }
         return message;
     }
