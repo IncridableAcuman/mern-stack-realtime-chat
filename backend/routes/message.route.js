@@ -6,6 +6,6 @@ const router=Router();
 
 router.get("/users",protected,messageController.getUsersForSidebar);
 router.get("/:id",protected,messageController.getMessages);
-router.post("/send/:id",protected,messageController.sendMessage);
+router.post("/send",protected,messageController.sendMessage);
 
 module.exports=router;

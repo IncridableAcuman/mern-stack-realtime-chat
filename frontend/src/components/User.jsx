@@ -34,6 +34,7 @@ const User = () => {
   }
   getMe();
   },[]);
+  localStorage.setItem("id",user?.id);
 
 
   return (
