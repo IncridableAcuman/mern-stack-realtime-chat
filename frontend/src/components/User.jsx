@@ -34,7 +34,11 @@ const User = () => {
   }
   getMe();
   },[]);
-  localStorage.setItem("id",user?.id);
+useEffect(() => {
+  if (user?.id) {
+    localStorage.setItem("id", user.id);
+  }
+}, [user]);
 
 
   return (
