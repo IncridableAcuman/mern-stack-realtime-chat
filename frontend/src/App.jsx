@@ -4,7 +4,6 @@ import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import { ToastContainer } from 'react-toastify';
-import Message from './pages/Message';
 
 const App = () => {
   return (
@@ -12,7 +11,6 @@ const App = () => {
     <ToastContainer position={'bottom-right'} />
     <Routes>
       <Route path='/' element={<Home/>} />
-      <Route path='/message' element={<Message/>} />
       <Route path='/login' element={<Login/>} />
       <Route path='/forgot-password' element={<ForgotPassword/>} />
       <Route path='/reset-password' element={<ResetPassword/>} />
