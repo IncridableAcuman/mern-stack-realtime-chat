@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axiosInstance from "../api/axiosInstance";
-const users = [
-  { id: 1, name: "Ali", avatar: "https://i.pravatar.cc/40?img=1" },
-  { id: 2, name: "Laylo", avatar: "https://i.pravatar.cc/40?img=2" },
-  { id: 3, name: "Javohir", avatar: "https://i.pravatar.cc/40?img=3" },
-];
+
 
 export default function ChatApp() {
-  const [selectedUser, setSelectedUser] = useState(users[0]);
   const [messages, setMessages] = useState([]);
   const [usersList, setUsers] = useState([]);
+  const [user, setUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(usersList[0]);
 
   const getUsers = async ()=>{
     try {
@@ -22,15 +19,48 @@ export default function ChatApp() {
   }
   const [input, setInput] = useState("");
 
-  const sendMessage = () => {
-    if (!input.trim()) return;
-    setMessages([...messages, { from: "me", text: input }]);
-    setInput("");
-  };
-
   useEffect(() => {
     getUsers();
   }, []);
+    const getMe = async ()=>{
+    try {
+      const {data} = await axiosInstance.get("/user/me");
+      setUser(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getMe();
+  }, []);
+
+
+  const getMessages = async ()=>{
+    try {
+      const { data } = await axiosInstance.get(`/messages/${selectedUser?._id}`);
+      setMessages(data);
+      console.log(data);
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedUser) {
+      getMessages();
+    }
+  }, []);
+
+  const handleSendMessage = async (text) => {
+    try {
+      const { data } = await axiosInstance.post(`/messages/send`, { senderId: user?.id, receiverId: selectedUser?._id, text });
+      setMessages((prev) => [...prev, data]);
+      setInput("");
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    }
+  };
 
   return (
     <div className="h-screen flex bg-gray-900 opacity-90 text-white">
@@ -43,7 +73,7 @@ export default function ChatApp() {
               key={user._id}
               onClick={() => setSelectedUser(user)}
               className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition ${
-                selectedUser._id === user?._id
+                selectedUser?._id === user?._id
                   ? "bg-blue-500 text-white"
                   : "hover:bg-gray-200"
               }`}
@@ -89,7 +119,7 @@ export default function ChatApp() {
                     : "bg-gray-300 text-black rounded-bl-none"
                 }`}
               >
-                {msg.text}
+                {msg?.text}
               </div>
             </div>
           ))}
@@ -101,11 +131,11 @@ export default function ChatApp() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder={`Write a message to ${selectedUser.name}...`}
+            placeholder={`Write a message to ${selectedUser?.username}...`}
             className="flex-1 border rounded-lg px-3 py-2 focus:outline-none"
           />
           <button
-            onClick={sendMessage}
+            onClick={handleSendMessage.bind(null, input)}
             className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
           >
             Send

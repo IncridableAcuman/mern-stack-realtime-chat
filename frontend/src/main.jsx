@@ -8,9 +8,7 @@ import { ThemeProvider } from './contexts/ThemeContext.jsx';
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
       <AuthProvider>
-              <ThemeProvider>
                     <App />
-              </ThemeProvider>
       </AuthProvider>
   </BrowserRouter>
 )
